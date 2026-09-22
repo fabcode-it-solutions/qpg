@@ -1,0 +1,63 @@
+/* Hero Swiper Custom Styles */
+.heroSwiper {
+  width: 100%;
+  height: auto;
+}
+
+.heroSwiper .swiper-pagination {
+  bottom: 20px !important;
+  z-index: 10;
+}
+
+.heroSwiper .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1 !important;
+  width: 12px !important;
+  height: 12px !important;
+  margin: 0 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.heroSwiper .swiper-pagination-bullet-active {
+  background: #ffffff !important;
+  transform: scale(1.2) !important;
+}
+
+.heroSwiper .swiper-button-next,
+.heroSwiper .swiper-button-prev {
+  color: rgba(255, 255, 255, 0.8) !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  border-radius: 50% !important;
+  width: 44px !important;
+  height: 44px !important;
+  margin-top: -22px !important;
+  transition: all 0.3s ease !important;
+}
+
+.heroSwiper .swiper-button-next:hover,
+.heroSwiper .swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: #ffffff !important;
+}
+
+.heroSwiper .swiper-button-next::after,
+.heroSwiper .swiper-button-prev::after {
+  font-size: 18px !important;
+}
+
+/* Hide navigation arrows on very small screens */
+@media (max-width: 640px) {
+  .heroSwiper .swiper-button-next,
+  .heroSwiper .swiper-button-prev {
+    display: none !important;
+  }
+}
+
+/* Smooth slide transitions */
+.heroSwiper .swiper-slide {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.heroSwiper .swiper-slide-active {
+  opacity: 1;
+}

@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter_18pt-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal; /* Changed from 'bold' to 'normal' */
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter_18pt-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal; /* Changed from 'bold' to 'normal' */
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter_18pt-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal; /* Changed from 'bold' to 'normal' */
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter_18pt-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal; /* Changed from 'bold' to 'normal' */
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter_18pt-ExtraBold.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal; /* Changed from 'bold' to 'normal' */
+}
+
+:root {
+  --color-primary: #00172f;
+  --color-secondary: #20813a;
+  --color-tertiary: #179fca;
+  --color-gold: #f6ca41;
+}
+
+.our-home-swiper .swiper-slide {
+  min-width: 320px !important;
+  /* transform: scaleX(1.002) !important ; */
+}
+
+.our-home-swiper .swiper-slide-active {
+  width: 320px !important;
+  /* transform: scaleX(1) !important; */
+}
+/* .our-home-swiper .swiper-slide-active {
+  transform: scale(1.1);
+  z-index: 10;
+  margin-right: 0px;
+} */
+
+body {
+  background-color: #000000;
+  font-family: "Inter", "Times New Roman", Times, serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+button {
+  cursor: pointer;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px black inset !important;
+  -webkit-text-fill-color: #fff !important;
+}

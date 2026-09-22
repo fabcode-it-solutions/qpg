@@ -1,0 +1,79 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: qpg-ai-server
+    restart: always
+    ports:
+      - "${PORT:-3010}:${PORT:-3010}"
+    volumes:
+      - ./uploads:/app/uploads:rw
+      - ./logs:/app/logs:rw
+    env_file:
+      - .env.production
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=qpg
+      - DB_USER=postgres
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3010/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - qpg-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: qpg-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: qpg
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports:
+      - "127.0.0.1:5432:5432"  # Only expose to localhost for security
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./setup-database.sql:/docker-entrypoint-initdb.d/setup-database.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d qpg"]  # Password is handled by environment variables
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - qpg-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+networks:
+  qpg-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local

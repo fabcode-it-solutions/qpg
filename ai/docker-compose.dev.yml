@@ -1,0 +1,54 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: qpg-ai-server-dev
+    restart: unless-stopped
+    ports:
+      - "3010:3010"
+    volumes:
+      - .:/app:rw
+      - /app/node_modules
+      - ./uploads:/app/uploads:rw
+      - ./logs:/app/logs:rw
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - qpg-network
+    command: npm run dev
+
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: qpg-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: qpg
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data-dev:/var/lib/postgresql/data
+      - ./setup-database.sql:/docker-entrypoint-initdb.d/setup-database.sql
+    networks:
+      - qpg-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d qpg"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+networks:
+  qpg-network:
+    driver: bridge
+
+volumes:
+  postgres-data-dev:
+    driver: local
